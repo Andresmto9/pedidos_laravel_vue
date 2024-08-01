@@ -10,7 +10,7 @@
     export default {
         name: 'HelloWorld',
         async mounted() {
-            console.log("Hola :D")
+            console.log("Hola", ":D")
         }
     }
 </script>
