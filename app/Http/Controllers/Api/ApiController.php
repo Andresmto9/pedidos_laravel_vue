@@ -59,4 +59,41 @@ class ApiController extends Controller
 
         return $arrResult;
     }
+
+    /**
+     * Funcionalidad para consultar los productos registrados en el sistema
+     */
+    public function getProdSistema(){
+        $prod = Productos::get();
+
+        if(count($prod) > 0){
+            $arrResult["estado"] = "OK";
+        }else{
+            $arrResult["estado"] = "FAIL";
+        }
+
+        $arrResult["data"] = $prod;
+
+        return $arrResult;
+    }
+
+    /**
+     * Funcionalidad para registrar los datos del producto
+     */
+    public function setProdData(Request $request){
+        $prod = new Productos;
+        $prod->producto_nombre = $request->nombre;
+        $prod->producto_valor = $request->precio;
+        $prod->producto_descripcion = $request->descripcion;
+
+        $prod->save();
+
+        if($prod){
+            $arrResult["estado"] = "OK";
+        }else{
+            $arrResult["estado"] = "FAIL";
+        }
+
+        return $arrResult;
+    }
 }

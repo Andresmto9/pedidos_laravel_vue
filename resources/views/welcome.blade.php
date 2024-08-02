@@ -6,6 +6,37 @@
 
         <title>Prueba Ticker Shop</title>
 
+        <style>
+            .modal-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                display: grid;
+                justify-content: center;
+                align-items: center;
+            }
+            .modal-content {
+                width: 80%;
+                height: 80% auto;
+                background: white;
+                padding: 20px;
+                border-radius: 4px;
+                position: relative;
+            }
+            .close-button {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                border: none;
+                background: none;
+                cursor: pointer;
+                font-size: 20px;
+            }
+        </style>
+
         @vite('resources/css/app.css')
     </head>
     <body class="font-sans antialiased dark:bg-black dark:text-white/50 antialiased bg-slate-300">
