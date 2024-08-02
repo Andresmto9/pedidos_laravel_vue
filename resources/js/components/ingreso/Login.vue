@@ -8,6 +8,8 @@
         },
         methods: {
             setIngreUsua(){
+                let vali = 0;
+
                 $('.ingreUsua').each(function(){
                     if($(this).val() == ""){
                         $(this).removeClass( "border-teal-100" ).addClass( "border-red-500" );
@@ -19,10 +21,44 @@
                             focusConfirm: false,
                             confirmButtonText: 'Aceptar',
                         });
+                        vali = 1;
                     }else{
                         $(this).removeClass( "border-red-500" ).addClass( "border-teal-100" );
+                        vali = 0;
                     }
                 })
+
+                if(vali == 0){
+                    axios({
+                        method: 'post',
+                        url: '/api/token',
+                        data: {
+                            email: $("#usuaCorre").val(),
+                            password: $("#usuaPass").val()
+                        }
+                    }).then((response) => {
+                        Swal.fire({
+                            title: "PERFECTO",
+                            text: 'Ingreso con éxito.',
+                            icon: "success",
+                            confirmButtonText: "Aceptar",
+                        })
+
+                        localStorage.setItem('authenticated', true);
+                        localStorage.setItem('token', response.data.token);
+
+                        this.$emit('login-success');
+                    }, (error) => {
+                        Swal.fire({
+                            title: "ERROR",
+                            text: 'Ocurrió un problema con la autenticación, verifique la información registrada.',
+                            icon: "error",
+                            showCancelButton: false,
+                            focusConfirm: false,
+                            confirmButtonText: 'Aceptar',
+                        });
+                    });
+                }
             }
         },
         async mounted() {
@@ -76,13 +112,13 @@
                             </button>
                         </div>
                         <hr>
-                        <div class="mt-8">
+                        <!-- <div class="mt-8">
                             <p class="text-sm">
                                 <a class="font-bold text-sm text-teal-500 hover:text-teal-800 cursor-pointer" @click="$emit('mostrar-ingreso')">
                                     Crear cuenta
                                 </a>
                             </p>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

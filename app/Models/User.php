@@ -8,10 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Pedidos;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasApiTokens,HasFactory, Notifiable;
 
     protected $table = 'usuarios';
 
@@ -22,7 +23,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'nombre',
-        'correo',
+        'email',
         'password',
     ];
 

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('usuarios', function (Blueprint $table) {
             $table->increments('id')->comment('Identificador principal de la tabla usuarios.');
             $table->string('nombre');
-            $table->string('correo')->unique();
+            $table->string('email')->unique();
             $table->timestamp('verificacion_correo')->nullable();
             $table->string('password');
             $table->rememberToken();
@@ -22,7 +22,7 @@ return new class extends Migration
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
-            $table->string('correo')->primary();
+            $table->string('email')->primary();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
         });
