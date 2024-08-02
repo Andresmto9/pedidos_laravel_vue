@@ -11,8 +11,9 @@
     <body class="font-sans antialiased dark:bg-black dark:text-white/50 antialiased bg-slate-300">
         <div id="app">
             <div class="col-span-12">
-                <login v-show="mostrarIngreso" @mostrar-ingreso="mostrarIngreso = false; mostrarRegistro = true"></login>
-                <register v-show="mostrarRegistro" @mostrar-registro="mostrarIngreso = true; mostrarRegistro = false"></register>
+                <login v-if="mostrarIngreso == true && !isAuthenticated" @mostrar-ingreso="mostrarIngreso = false; mostrarRegistro = true" @login-success="handleLoginSuccess"></login>
+                <register v-else-if="mostrarRegistro && !isAuthenticated" @mostrar-registro="mostrarIngreso = true; mostrarRegistro = false"></register>
+                <pedidos v-else></pedidos>
             </div>
         </div>
         @vite('resources/js/app.js')
