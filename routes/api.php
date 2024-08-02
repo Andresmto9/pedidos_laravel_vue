@@ -8,7 +8,8 @@ Route::post('token', [ApiController::class, 'token']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/getInfoSistema', [ApiController::class, 'getInfoSistema']);
-    // Route::get('/titulos/{id}', [TitulosController::class, 'index']);
+    Route::post('/setProdData', [ApiController::class, 'setProdData']);
+    Route::get('/getProdSistema', [ApiController::class, 'getProdSistema']);
 });
 
 // Route::get('/user', function (Request $request) {
