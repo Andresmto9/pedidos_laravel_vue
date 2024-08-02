@@ -6,7 +6,7 @@ import { createApp } from 'vue'
 import Login from '@/components/ingreso/Login.vue'
 import Register from '@/components/ingreso/Register.vue'
 import Pedidos from '@/components/dashboard/Pedidos.vue'
-import PedidoModal from '@/components/dashboard/PedidoModal.vue'
+import PedidosModal from '@/components/dashboard/PedidosModal.vue'
 
 window.app = createApp({
     setup() {
@@ -36,6 +36,6 @@ window.app = createApp({
         Login,
         Register,
         Pedidos,
-        PedidoModal
+        PedidosModal
     },
 }).mount('#app');
