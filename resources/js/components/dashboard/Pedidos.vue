@@ -1,8 +1,13 @@
 <script>
+    import PedidosModal from './PedidosModal.vue';
     export default {
         name: 'Pedidos',
+        components: {
+            PedidosModal
+        },
         data() {
             return {
+                showModalPedido: false,
                 pedidos: '',
                 productos: '',
                 usuarios: '',
@@ -120,16 +125,20 @@
 
             <li class="">
                 <input class="peer sr-only" type="radio" value="yesno" name="answer" id="yesno" />
-                <label class="flex justify-center cursor-pointer rounded-full border border-gray-300 bg-white py-2 px-4 hover:bg-gray-50 focus:outline-none peer-checked:border-transparent peer-checked:ring-2 peer-checked:ring-indigo-500 transition-all duration-500 ease-in-out " for="yesno">Something</label>
+                <label class="flex justify-center cursor-pointer rounded-full border border-gray-300 bg-white py-2 px-4 hover:bg-gray-50 focus:outline-none peer-checked:border-transparent peer-checked:ring-2 peer-checked:ring-indigo-500 transition-all duration-500 ease-in-out " for="yesno">Usuarios</label>
                 <div class="absolute bg-white shadow-lg left-0 p-6 border mt-2 border-indigo-300 rounded-lg w-[97vw] mx-auto transition-all duration-500 ease-in-out translate-x-40 opacity-0 invisible peer-checked:opacity-100 peer-checked:visible peer-checked:translate-x-1">
                     <div class="col-span-12 grid w-full">
                         <div class="mb-4 text-center col-end-12 col-span-2">
-                            <button class="transition duration-500 bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" @click="setIngreUsua()">
+                            <button class="transition duration-500 bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" @click="showModalPedido = true">
                                 Crear usuario
                             </button>
                         </div>
                         <div class="text-center col-span-12 mb-5" v-html="usuarios"></div>
                     </div>
+                    <PedidosModal :mostrarModal.sync="showModalPedido">
+                        <h1>Contenido del Modal</h1>
+                        <p>Este es un modal simple.</p>
+                    </PedidosModal>
                 </div>
             </li>
         </ul>
