@@ -6,10 +6,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Pedidos;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasApiTokens,HasFactory, Notifiable;
+
+    protected $table = 'usuarios';
 
     /**
      * The attributes that are mass assignable.
@@ -17,7 +22,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'nombre',
         'email',
         'password',
     ];
@@ -40,8 +45,12 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
+            'verificacion_correo' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function pedidos(): HasMany{
+        return $this->hasMany(Pedidos::class, 'user_id', 'id');
     }
 }
