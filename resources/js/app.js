@@ -1,14 +1,24 @@
 import './bootstrap';
+import './jquery';
+import './sweetalert';
 import { createApp } from 'vue'
-import HelloWorld from '@/components/HelloWorld.vue'
+import Login from '@/components/ingreso/Login.vue'
+import Register from '@/components/ingreso/Register.vue'
 
 window.app = createApp({
     setup() {
         return {
-            message: 'Welcome to Your Vue.js App',
+            message: 'Vue.js',
+        };
+    },
+    data() {
+        return {
+            mostrarIngreso: true,
+            mostrarRegistron : false
         };
     },
     components: {
-        HelloWorld
+        Login,
+        Register
     },
 }).mount('#app');
