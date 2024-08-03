@@ -10,6 +10,7 @@ use App\Models\Productos;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class ApiController extends Controller
 {
@@ -47,6 +48,7 @@ class ApiController extends Controller
      */
     public function getInfoSistema(){
         $pedi = Pedidos::where('usua_id', Auth::user()->id)
+            ->with('productos')
             ->get();
 
         $prod = Productos::get();
@@ -85,6 +87,7 @@ class ApiController extends Controller
         $prod->producto_nombre = $request->nombre;
         $prod->producto_valor = $request->precio;
         $prod->producto_descripcion = $request->descripcion;
+        $prod->producto_iva = $request->iva;
 
         $prod->save();
 
@@ -92,6 +95,62 @@ class ApiController extends Controller
             $arrResult["estado"] = "OK";
         }else{
             $arrResult["estado"] = "FAIL";
+        }
+
+        return $arrResult;
+    }
+
+    /**
+     * Función para realizar el refistro del pedido
+     */
+    public function setPediData(Request $request){
+        $pedi = new Pedidos;
+        $pedi->usua_id = Auth::user()->id;
+        $pedi->prod_id = $request["prod"]["id"];
+        $pedi->pedido_valor_unitario = $request["prod"]["valor"];
+        $pedi->pedido_cantidad = $request["cantidad"];
+        $pedi->pedido_precio_subtotal = ($request["prod"]["valor"] * $request["cantidad"]);
+        $pedi->pedido_iva = (($request["prod"]["valor"] * $request["cantidad"]) * ($request["prod"]["iva"] / 100));
+        $pedi->pedido_precio_total = ($request["prod"]["valor"] * $request["cantidad"]) + (($request["prod"]["valor"] * $request["cantidad"]) * ($request["prod"]["iva"] / 100));
+        $pedi->estado = 1;
+        $pedi->save();
+
+        if($pedi){
+            $arrResult["estado"] = "OK";
+        }else{
+            $arrResult["estado"] = "FAIL";
+        }
+
+        return $arrResult;
+    }
+
+    /**
+     * Funcionalidad para registrar un usuario nuevos
+     */
+    public function setUsuaData(Request $request){
+        $valiUsua = User::where('email', $request->correo)
+            ->get();
+
+        if(count($valiUsua) > 0){
+            $arrResult["estado"] = "FAIL";
+            $arrResult["mensaje"] = "El correo ingresado ya esta registrado.";
+        }else{
+            $usua = new User;
+
+            $usua->nombre = $request->nombre;
+            $usua->email = $request->correo;
+            $usua->password = Hash::make($request->password);
+            $usua->remember_token = Str::random(10);
+
+            $usua->save();
+
+            if($usua){
+                $arrResult["estado"] = "OK";
+                $arrResult["mensaje"] = "Se registro con éxito el usuario.";
+            }else{
+                $arrResult["estado"] = "FAIL";
+                $arrResult["mensaje"] = "Ocurrió un problema al registrar el usuario.";
+            }
         }
 
         return $arrResult;

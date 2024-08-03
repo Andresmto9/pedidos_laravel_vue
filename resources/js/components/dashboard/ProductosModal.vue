@@ -21,17 +21,18 @@
                 let vali = 0;
 
                 $('.valiProd').each(function(){
-                    if($(this).val() == ""){
+                    if($(this).val() == "" || $(this).val() <= 0){
                         $(this).removeClass( "border-teal-100" ).addClass( "border-red-500" );
                         Swal.fire({
                             title: "¡UN MOMENTO!",
-                            text: `Debe registrar ${$(this).data('titulo')}`,
+                            text: `Debe registrar ${$(this).data('titulo')} o validar la inforamción registrada.`,
                             icon: "error",
                             showCancelButton: false,
                             focusConfirm: false,
                             confirmButtonText: 'Aceptar',
                         });
                         vali = 1;
+                        return false;
                     }else{
                         $(this).removeClass( "border-red-500" ).addClass( "border-teal-100" );
                         vali = 0;
@@ -49,7 +50,8 @@
                         data: {
                             nombre: $("#prodNombCrea").val(),
                             precio: $("#prodValoCrea").val(),
-                            descripcion: $("#prodDescCrea").val()
+                            descripcion: $("#prodDescCrea").val(),
+                            iva: $("#prodIvaCrea").val()
                         }
                     }).then((response) => {
                         if(response.data.estado== "OK"){
@@ -58,7 +60,11 @@
                                 text: 'Se registor el producto con éxito.',
                                 icon: "success",
                                 confirmButtonText: "Aceptar",
-                            })
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
+                            });
                         }else{
                             Swal.fire({
                                 title: "ERROR",
@@ -67,8 +73,6 @@
                                 confirmButtonText: "Aceptar",
                             })
                         }
-
-                        location.reload();
                     }, (error) => {
                         Swal.fire({
                             title: "ERROR",
@@ -110,6 +114,17 @@
                         </label>
                         <div class="mt-1 relative rounded-md shadow-sm">
                             <input type="number" id="prodValoCrea" class="block pr-10 shadow appearance-none border-2 border-teal-100 rounded w-full py-2 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-teal-500 transition duration-500 ease-in-out valiProd" data-titulo="el valor del producto." />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-12">
+                    <div class="mb-8">
+                        <label for="prodIvaCrea" class="block text-gray-700 text-sm font-bold mb-2">
+                            <span class="text-red-500">&nbsp;*</span>
+                            Iva asociado el producto
+                        </label>
+                        <div class="mt-1 relative rounded-md shadow-sm">
+                            <input type="number" id="prodIvaCrea" class="block pr-10 shadow appearance-none border-2 border-teal-100 rounded w-full py-2 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-teal-500 transition duration-500 ease-in-out valiProd" data-titulo="el valor del producto." />
                         </div>
                     </div>
                 </div>
