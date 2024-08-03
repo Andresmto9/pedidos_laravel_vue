@@ -9,6 +9,8 @@ Route::post('token', [ApiController::class, 'token']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/getInfoSistema', [ApiController::class, 'getInfoSistema']);
     Route::post('/setProdData', [ApiController::class, 'setProdData']);
+    Route::post('/setPediData', [ApiController::class, 'setPediData']);
+    Route::post('/setUsuaData', [ApiController::class, 'setUsuaData']);
     Route::get('/getProdSistema', [ApiController::class, 'getProdSistema']);
 });
 
